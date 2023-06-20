@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData themeData = ThemeData(
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.transparent,
     elevation: 0.0,
   )
 );

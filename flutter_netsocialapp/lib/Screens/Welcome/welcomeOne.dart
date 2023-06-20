@@ -31,7 +31,7 @@ class _WelcomeOneState extends State<WelcomeOne> {
           Container(
             width: 300,
             child: Text(
-              "Uygulama, herkese harika bir kullanıcı olma imkanı sunar",
+              "NetSocialApp, herkese harika bir kullanıcı olma imkanı sunar",
               style: TextStyle(
                 fontSize: 25, 
                 fontWeight: FontWeight.bold,

@@ -26,7 +26,7 @@ class WelcomeThree extends StatelessWidget {
           Container(
             width: 300,
             child: Text(
-              "Uygulama, herkese harika bir kullanıcı olma imkanı sunar",
+              "İhtiyacınız olan her şey NetSocialApp'de",
               style: TextStyle(
                 fontSize: 25, 
                 fontWeight: FontWeight.bold,
