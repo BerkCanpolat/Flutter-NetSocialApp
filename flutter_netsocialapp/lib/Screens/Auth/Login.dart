@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_netsocialapp/Firebase/auth.dart';
 import 'package:flutter_netsocialapp/Screens/Auth/SignUp.dart';
 import 'package:flutter_netsocialapp/Screens/Auth/passwordComing.dart';
+import 'package:flutter_netsocialapp/Screens/home/home.dart';
+import 'package:flutter_netsocialapp/constants/constant.dart';
 import 'package:flutter_netsocialapp/constants/navigate.dart';
 import 'package:flutter_netsocialapp/widget/button.dart';
 import 'package:flutter_netsocialapp/widget/textfield.dart';
@@ -17,7 +20,36 @@ class _LoginState extends State<Login> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
-  bool isVisible = false;
+  bool isVisible = true;
+  bool isLogined = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _email.dispose();
+    _password.dispose();
+  }
+
+  void _changeLoading(){
+    setState(() {
+      isLogined = !isLogined;
+    });
+  }
+
+  void userLogin() async {
+    _changeLoading();
+    bool isValidate = loginValidate(_email.text, _password.text);
+    if (isValidate) {
+      bool isLogined =
+          await AuthService().loginuser(_email.text, _password.text, context);
+      if (isLogined) {
+        MainRoutes.instance
+            .pushAndRemoveUntil(widget: Home(), context: context);
+      }
+    }
+    _changeLoading();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +140,11 @@ class _LoginState extends State<Login> {
                 textInputAction: TextInputAction.done,
                 textInputType: TextInputType.text,
                 obs: isVisible,
-                suffiicon: Icon(isVisible ? Icons.visibility_off : Icons.visibility,color: Color(0xff9896f0),),cupertino: (){
+                suffiicon: Icon(
+                  isVisible ? Icons.visibility : Icons.visibility_off,
+                  color: Color(0xff9896f0),
+                ),
+                cupertino: () {
                   setState(() {
                     isVisible = !isVisible;
                   });
@@ -122,8 +158,9 @@ class _LoginState extends State<Login> {
                 padding: EdgeInsets.only(top: 20),
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
-                  onTap: (){
-                    MainRoutes.instance.pushAndGo(widget: PasswordComing(), context: context);
+                  onTap: () {
+                    MainRoutes.instance
+                        .pushAndGo(widget: PasswordComing(), context: context);
                   },
                   child: Text(
                     "Şifreni mi unuttun?",
@@ -131,22 +168,36 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              NetSocialAppButton(text: "Giriş Yap",onPressed: (){},),
+              NetSocialAppButton(
+                text: "Giriş Yap",
+                onPressed: userLogin,
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Henüz bir hesabın yok mu?",
-                style: TextStyle(color: Colors.grey[800], letterSpacing: 1),),
-                    SizedBox(width: 15,),
+                    Text(
+                      "Henüz bir hesabın yok mu?",
+                      style:
+                          TextStyle(color: Colors.grey[800], letterSpacing: 1),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
                     CupertinoButton(
                       padding: EdgeInsets.zero,
-                      onPressed: (){
-                        MainRoutes.instance.pushAndGo(widget: SignUp(), context: context);
+                      onPressed: () {
+                        MainRoutes.instance
+                            .pushAndGo(widget: SignUp(), context: context);
                       },
-                      child: Text("Kaydol",
-                                    style: TextStyle(color: Colors.grey[800], letterSpacing: 1,fontWeight: FontWeight.bold),),
+                      child: Text(
+                        "Kaydol",
+                        style: TextStyle(
+                            color: Colors.grey[800],
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),

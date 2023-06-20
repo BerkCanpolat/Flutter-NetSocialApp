@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "981936485357",
+    "project_id": "netsocialapp-8357c",
+    "storage_bucket": "netsocialapp-8357c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981936485357:android:f1e8e789d7e8909f04ede4",
+        "android_client_info": {
+          "package_name": "com.example.flutter_netsocialapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "981936485357-rf2uh8s8kitu9ipbopls46078qdi4qn2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_70WH9Q7SEey3AKjIXJ7HrISBTUoJjY4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "981936485357-rf2uh8s8kitu9ipbopls46078qdi4qn2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

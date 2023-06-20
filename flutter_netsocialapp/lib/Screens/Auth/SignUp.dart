@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_netsocialapp/Firebase/auth.dart';
+import 'package:flutter_netsocialapp/Screens/Auth/Login.dart';
+import 'package:flutter_netsocialapp/constants/constant.dart';
+import 'package:flutter_netsocialapp/constants/navigate.dart';
 import 'package:flutter_netsocialapp/widget/button.dart';
 import 'package:flutter_netsocialapp/widget/textfield.dart';
 
@@ -14,8 +18,38 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _userName = TextEditingController();
+  bool _isLoading = false;
+  bool isVisible = true;
 
-  bool isVisible = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _email.dispose();
+    _password.dispose();
+    _userName.dispose();
+  }
+
+  void userSignUp() async{
+    _changeLoading();
+    bool isValidate = signUpValidate(_email.text, _password.text, _userName.text);
+    if(isValidate){
+      bool isSignUp = await AuthService().signUpUser(_userName.text, _email.text, _password.text, context);
+      if(isSignUp){
+        MainRoutes.instance.pushAndGo(widget: Login(), context: context);
+      }
+    }
+    _changeLoading();
+  }
+
+  void _changeLoading(){
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +164,11 @@ class _SignUpState extends State<SignUp> {
                 textInputAction: TextInputAction.done,
                 textInputType: TextInputType.text,
                 obs: isVisible,
-                suffiicon: Icon(isVisible ? Icons.visibility_off : Icons.visibility,color: Color(0xff9896f0),),cupertino: (){
+                suffiicon: Icon(
+                  isVisible ? Icons.visibility_off : Icons.visibility,
+                  color: Color(0xff9896f0),
+                ),
+                cupertino: () {
                   setState(() {
                     isVisible = !isVisible;
                   });
@@ -140,20 +178,36 @@ class _SignUpState extends State<SignUp> {
                   color: Color(0xff9896f0),
                 ),
               ),
-              NetSocialAppButton(text: "Giriş Yap",onPressed: (){},),
+              NetSocialAppButton(
+                text: "Kaydol",
+                onPressed: userSignUp,
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Henüz bir hesabın yok mu?",
-                style: TextStyle(color: Colors.grey[800], letterSpacing: 1),),
-                    SizedBox(width: 15,),
+                    Text(
+                      "Zaten bir hesabın var mı?",
+                      style:
+                          TextStyle(color: Colors.grey[800], letterSpacing: 1),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
                     CupertinoButton(
                       padding: EdgeInsets.zero,
-                      onPressed: (){},
-                      child: Text("Kaydol",
-                                    style: TextStyle(color: Colors.grey[800], letterSpacing: 1,fontWeight: FontWeight.bold),),
+                      onPressed: () {
+                        MainRoutes.instance
+                            .pushAndGo(widget: Login(), context: context);
+                      },
+                      child: Text(
+                        "Giriş yap",
+                        style: TextStyle(
+                            color: Colors.grey[800],
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
