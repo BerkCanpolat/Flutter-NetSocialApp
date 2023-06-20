@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>981936485357-6rhgc3bjmcvt8d7r23o2t2f2abom9b68.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.981936485357-6rhgc3bjmcvt8d7r23o2t2f2abom9b68</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC-Lj3HTlDhN8kVOLENzbe8rt891Jpd0QI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>981936485357</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.flutterNetsocialapp.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>netsocialapp-8357c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>netsocialapp-8357c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:981936485357:ios:d4949a94c364bb6a04ede4</string>
+</dict>
+</plist>
