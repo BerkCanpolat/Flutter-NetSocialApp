@@ -26,7 +26,7 @@ class WelcomeTwo extends StatelessWidget {
           Container(
             width: 300,
             child: Text(
-              "Uygulama, herkese harika bir kullanıcı olma imkanı sunar",
+              "Bu uygulamayı kullanmanıza daha fazla yardımcı olacak daha birçok harika özellik",
               style: TextStyle(
                 fontSize: 25, 
                 fontWeight: FontWeight.bold,

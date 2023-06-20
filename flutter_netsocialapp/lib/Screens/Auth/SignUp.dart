@@ -1,21 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_netsocialapp/Screens/Auth/SignUp.dart';
-import 'package:flutter_netsocialapp/Screens/Auth/passwordComing.dart';
-import 'package:flutter_netsocialapp/constants/navigate.dart';
 import 'package:flutter_netsocialapp/widget/button.dart';
 import 'package:flutter_netsocialapp/widget/textfield.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginState extends State<Login> {
+class _SignUpState extends State<SignUp> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  final TextEditingController _userName = TextEditingController();
 
   bool isVisible = false;
 
@@ -46,7 +44,7 @@ class _LoginState extends State<Login> {
               Row(
                 children: [
                   Text(
-                    "Hoşgeldin",
+                    "Yeni hesap oluştur",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
@@ -58,7 +56,7 @@ class _LoginState extends State<Login> {
                     width: 12,
                   ),
                   Icon(
-                    Icons.waving_hand_sharp,
+                    Icons.thumb_up_alt,
                     color: Colors.yellow,
                   )
                 ],
@@ -67,11 +65,35 @@ class _LoginState extends State<Login> {
                 height: 12,
               ),
               Text(
-                "Sizi görmekten mutluluk duyuyoruz. Hesabınızı kullanmak için önce giriş yapmalısınız.",
+                "Lütfen devam etmek için formu doldurunuz!",
                 style: TextStyle(color: Colors.grey[800], letterSpacing: 1),
               ),
               SizedBox(
                 height: kToolbarHeight,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 10),
+                child: Text(
+                  "Kullanıcı Adı",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              TextfieldWidget(
+                controller: _userName,
+                hintText: "Admin",
+                textInputAction: TextInputAction.next,
+                textInputType: TextInputType.emailAddress,
+                suffiicon: Icon(
+                  Icons.abc,
+                  size: 0,
+                ),
+                prefixIcon: Icon(
+                  Icons.email,
+                  color: Color(0xff9896f0),
+                ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, bottom: 10),
@@ -118,19 +140,6 @@ class _LoginState extends State<Login> {
                   color: Color(0xff9896f0),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.only(top: 20),
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: (){
-                    MainRoutes.instance.pushAndGo(widget: PasswordComing(), context: context);
-                  },
-                  child: Text(
-                    "Şifreni mi unuttun?",
-                    style: TextStyle(color: Colors.grey[800], letterSpacing: 1),
-                  ),
-                ),
-              ),
               NetSocialAppButton(text: "Giriş Yap",onPressed: (){},),
               Padding(
                 padding: const EdgeInsets.only(top: 50),
@@ -142,9 +151,7 @@ class _LoginState extends State<Login> {
                     SizedBox(width: 15,),
                     CupertinoButton(
                       padding: EdgeInsets.zero,
-                      onPressed: (){
-                        MainRoutes.instance.pushAndGo(widget: SignUp(), context: context);
-                      },
+                      onPressed: (){},
                       child: Text("Kaydol",
                                     style: TextStyle(color: Colors.grey[800], letterSpacing: 1,fontWeight: FontWeight.bold),),
                     ),

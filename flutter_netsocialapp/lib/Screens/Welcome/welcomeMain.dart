@@ -3,6 +3,7 @@ import 'package:flutter_netsocialapp/Screens/Auth/Login.dart';
 import 'package:flutter_netsocialapp/Screens/Welcome/welcomeOne.dart';
 import 'package:flutter_netsocialapp/Screens/Welcome/welcomeThree.dart';
 import 'package:flutter_netsocialapp/Screens/Welcome/welcomeTwo.dart';
+import 'package:flutter_netsocialapp/constants/navigate.dart';
 
 class WelcomeMain extends StatefulWidget {
   const WelcomeMain({super.key});
@@ -32,7 +33,16 @@ class _WelcomeMainState extends State<WelcomeMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [TextButton(onPressed: (){}, child: Text("Atla",style: TextStyle(color: Colors.black),))],
+        actions: [TextButton(
+          onPressed: (){
+            MainRoutes.instance.pushAndGo(widget: Login(), context: context);
+          }, 
+          child: Text("Atla",style: TextStyle(color: Colors.black),),
+          style: TextButton.styleFrom(
+            foregroundColor: Color(0xff9896f0),
+          ),
+          ),
+          ],
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
@@ -76,7 +86,7 @@ class _WelcomeMainState extends State<WelcomeMain> {
             backgroundColor: Color(0xff9896f0),
             foregroundColor: Colors.white,
               child: IconButton(onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login()));
+                MainRoutes.instance.pushAndGo(widget: Login(), context: context);
               },
               icon: Icon(Icons.play_circle,size: 30,),
               ),
