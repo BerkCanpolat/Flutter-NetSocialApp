@@ -17,6 +17,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  final TextEditingController _name = TextEditingController();
   final TextEditingController _userName = TextEditingController();
   bool _isLoading = false;
   bool isVisible = true;
@@ -35,7 +36,7 @@ class _SignUpState extends State<SignUp> {
     _changeLoading();
     bool isValidate = signUpValidate(_email.text, _password.text, _userName.text);
     if(isValidate){
-      bool isSignUp = await AuthService().signUpUser(_userName.text, _email.text, _password.text, context);
+      bool isSignUp = await AuthService().signUpUser(_name.text, _email.text, _password.text, _userName.text, context);
       if(isSignUp){
         MainRoutes.instance.pushAndGo(widget: Login(), context: context);
       }
@@ -103,10 +104,31 @@ class _SignUpState extends State<SignUp> {
                 style: TextStyle(color: Colors.grey[800], letterSpacing: 1),
               ),
               SizedBox(
-                height: kToolbarHeight,
+                height: 30,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, bottom: 10),
+                child: Text(
+                  "İsim",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              TextfieldWidget(
+                controller: _name,
+                hintText: "Admin",
+                textInputAction: TextInputAction.next,
+                textInputType: TextInputType.emailAddress,
+                suffiicon: Icon(
+                  Icons.abc,
+                  size: 0,
+                ),
+                prefixIcon: Icon(
+                  Icons.email,
+                  color: Color(0xff9896f0),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 10,top: 20),
                 child: Text(
                   "Kullanıcı Adı",
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -178,12 +200,15 @@ class _SignUpState extends State<SignUp> {
                   color: Color(0xff9896f0),
                 ),
               ),
-              NetSocialAppButton(
-                text: "Kaydol",
-                onPressed: userSignUp,
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: NetSocialAppButton(
+                  text: "Kaydol",
+                  onPressed: userSignUp,
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.only(top: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
