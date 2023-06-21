@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_netsocialapp/Screens/floatincSCreen/actionButton.dart';
+import 'package:flutter_netsocialapp/Screens/floatincSCreen/expand.dart';
+import 'package:flutter_netsocialapp/widget/homeCard.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,17 +16,23 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Color(0xff9896f0),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        title: Text("NetSocialApp",style: TextStyle(color: Colors.black,fontStyle: FontStyle.italic,fontWeight: FontWeight.bold,fontSize: 15),),
       ),
+      body: HomeCartWidget(),
+      floatingActionButton: ExpandableFab(children: [
+        ActionButton(
+          icon: Icon(Icons.cancel_outlined,color: Colors.white,),
+          onPressed: (){},
+        ),
+        ActionButton(
+          icon: Icon(Icons.add_photo_alternate_outlined,color: Colors.white,),
+          onPressed: (){},
+        ),
+        ActionButton(
+          icon: Icon(Icons.add,color: Colors.white,),
+          onPressed: (){},
+        ),
+      ], distance: 120),
     );
   }
 }

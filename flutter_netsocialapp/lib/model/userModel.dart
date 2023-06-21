@@ -3,6 +3,7 @@ class UserModel{
   final String? name;
   final String? password;
   final String? uid;
+  final String? userName;
 
 
   UserModel({
@@ -10,12 +11,14 @@ class UserModel{
     required this.name,
     required this.password,
     required this.uid,
+    required this.userName,
   });
 
   Map<String,dynamic> toJson() => {
     "email":email,
     "name":name,
     "password":password,
-    "uid":uid
+    "uid":uid,
+    "userName":userName
   };
 }

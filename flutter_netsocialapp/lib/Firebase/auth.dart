@@ -38,6 +38,7 @@ class AuthService{
      String name,
      String email,
      String password,
+     String username,
      BuildContext context,
   ) async{
     try {
@@ -50,6 +51,7 @@ class AuthService{
           name: name,
           password: password,
           uid: credential.user!.uid,
+          userName: username,
         );
 
         await _firestore.collection("Users").doc(credential.user!.uid).set(userModel.toJson());

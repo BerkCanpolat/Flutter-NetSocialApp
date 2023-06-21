@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_netsocialapp/Firebase/auth.dart';
 import 'package:flutter_netsocialapp/Screens/Auth/SignUp.dart';
 import 'package:flutter_netsocialapp/Screens/Auth/passwordComing.dart';
-import 'package:flutter_netsocialapp/Screens/home/home.dart';
+import 'package:flutter_netsocialapp/Screens/bottombar.dart/bottombar.dart';
 import 'package:flutter_netsocialapp/constants/constant.dart';
 import 'package:flutter_netsocialapp/constants/navigate.dart';
 import 'package:flutter_netsocialapp/widget/button.dart';
@@ -45,7 +45,7 @@ class _LoginState extends State<Login> {
           await AuthService().loginuser(_email.text, _password.text, context);
       if (isLogined) {
         MainRoutes.instance
-            .pushAndRemoveUntil(widget: Home(), context: context);
+            .pushAndRemoveUntil(widget: BottomNavigationScreen(), context: context);
       }
     }
     _changeLoading();
@@ -168,9 +168,12 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              NetSocialAppButton(
-                text: "Giriş Yap",
-                onPressed: userLogin,
+              Padding(
+                padding: const EdgeInsets.only(top: 100),
+                child: NetSocialAppButton(
+                  text: "Giriş Yap",
+                  onPressed: userLogin,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 50),

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_netsocialapp/Screens/home/home.dart';
+import 'package:flutter_netsocialapp/Screens/bottombar.dart/bottombar.dart';
 
 
 class SplashScreenTwo extends StatefulWidget {
@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreenTwo>
           () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Home(),
+          builder: (context) => BottomNavigationScreen(),
         ),
       ),
     );
