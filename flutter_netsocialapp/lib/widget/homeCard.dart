@@ -1,64 +1,66 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HomeCartWidget extends StatefulWidget {
-  const HomeCartWidget({super.key});
+  final snap;
+  const HomeCartWidget({super.key,this.snap});
 
   @override
   State<HomeCartWidget> createState() => _HomeCartWidgetState();
 }
 
 class _HomeCartWidgetState extends State<HomeCartWidget> {
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Haber Akışı",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold,letterSpacing: 1),),
-                SizedBox(height: 12,),
-                Text("Öne çıkan hikayeler",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 20,),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  maxRadius: 25,
-                  backgroundColor: Color.fromARGB(255, 101, 98, 243),
-                  child: IconButton(onPressed: (){}, icon: Icon(Icons.add,color: Colors.white,)),
-                ),
-                SizedBox(width: 12,),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          maxRadius: 25,
-                          backgroundImage: NetworkImage("https://images.unsplash.com/photo-1674574124340-c00cc2dae99c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"),
-                        ),
-                      ],
-                    ),
-                    Text("Sara"),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+        // Container(
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 12),
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text("Haber Akışı",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold,letterSpacing: 1),),
+        //         SizedBox(height: 12,),
+        //         Text("Öne çıkan hikayeler",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        // SizedBox(height: 20,),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 12),
+        //   child: Container(
+        //     child: Row(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         CircleAvatar(
+        //           maxRadius: 25,
+        //           backgroundColor: Color.fromARGB(255, 101, 98, 243),
+        //           child: IconButton(onPressed: (){}, icon: Icon(Icons.add,color: Colors.white,)),
+        //         ),
+        //         SizedBox(width: 12,),
+        //         Column(
+        //           children: [
+        //             Row(
+        //               children: [
+        //                 CircleAvatar(
+        //                   maxRadius: 25,
+        //                   backgroundImage: NetworkImage("https://images.unsplash.com/photo-1674574124340-c00cc2dae99c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"),
+        //                 ),
+        //               ],
+        //             ),
+        //             Text("Sara"),
+        //           ],
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
         Divider(),
-        SizedBox(height: 40,),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Container(
@@ -74,9 +76,9 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("İsim",style: TextStyle(fontWeight: FontWeight.bold),),
+                    Text(widget.snap["name"],style: TextStyle(fontWeight: FontWeight.bold),),
                     SizedBox(height: 7,),
-                    Text("@Kullanıcı ismi",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
+                    Text("@${widget.snap["name"]}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
                   ],
                 ),
                 Container(
@@ -119,7 +121,7 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
             height: MediaQuery.of(context).size.height * 0.35,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network("https://images.unsplash.com/photo-1674574124340-c00cc2dae99c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",fit: BoxFit.cover)),
+              child: Image.network(widget.snap["postUrl"],fit: BoxFit.cover)),
           ),
         ),
         Container(
@@ -142,12 +144,12 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text("22/22/2023",style: TextStyle(fontSize: 12,color: Colors.grey[800]),)
+                    child: Text(DateFormat.yMMMd().format(widget.snap["datePost"].toDate()),style: TextStyle(fontSize: 12,color: Colors.grey[800]),)
                   ),
                 ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

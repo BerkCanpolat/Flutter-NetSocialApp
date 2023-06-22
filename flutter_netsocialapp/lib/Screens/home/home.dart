@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_netsocialapp/Screens/floatincSCreen/actionButton.dart';
-import 'package:flutter_netsocialapp/Screens/floatincSCreen/expand.dart';
 import 'package:flutter_netsocialapp/widget/homeCard.dart';
 
 class Home extends StatefulWidget {
@@ -12,27 +10,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("NetSocialApp",style: TextStyle(color: Colors.black,fontStyle: FontStyle.italic,fontWeight: FontWeight.bold,fontSize: 15),),
-      ),
-      body: HomeCartWidget(),
-      floatingActionButton: ExpandableFab(children: [
-        ActionButton(
-          icon: Icon(Icons.cancel_outlined,color: Colors.white,),
-          onPressed: (){},
-        ),
-        ActionButton(
-          icon: Icon(Icons.add_photo_alternate_outlined,color: Colors.white,),
-          onPressed: (){},
-        ),
-        ActionButton(
-          icon: Icon(Icons.add,color: Colors.white,),
-          onPressed: (){},
-        ),
-      ], distance: 120),
-    );
+    return  StreamBuilder(
+        stream: FirebaseFirestore.instance.collection("UserPost").orderBy("datePost", descending: true).snapshots(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator(),);
+          }
+          return ListView.builder(
+            shrinkWrap: true,
+            primary: false,
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) => HomeCartWidget(snap: snapshot.data!.docs[index].data(),),
+          );
+        },
+      );
   }
 }
