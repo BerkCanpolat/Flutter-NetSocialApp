@@ -41,8 +41,7 @@ class _LoginState extends State<Login> {
     _changeLoading();
     bool isValidate = loginValidate(_email.text, _password.text);
     if (isValidate) {
-      bool isLogined =
-          await AuthService().loginuser(_email.text, _password.text, context);
+      bool isLogined = await AuthService().loginuser(_email.text, _password.text, context);
       if (isLogined) {
         MainRoutes.instance
             .pushAndRemoveUntil(widget: BottomNavigationScreen(), context: context);

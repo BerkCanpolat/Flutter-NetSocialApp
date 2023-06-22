@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:cherry_toast/cherry_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -6,6 +9,10 @@ void showMessage(String text){
     msg: text,
     backgroundColor:  Color(0xff9896f0),
   );
+}
+
+void cherryMessage(String title,BuildContext context){
+  CherryToast.success(title: Text(title)).show(context);
 }
 
 
@@ -62,6 +69,22 @@ bool signUpValidate(String email, String password,String name){
     return false;
   }else if(name.isEmpty){
     showMessage("İsim Boş");
+    return false;
+  }else{
+    return true;
+  }
+}
+
+
+bool sharePhoto(Uint8List file,String descriptionPhoto,BuildContext context){
+  if(file.isEmpty && descriptionPhoto.isEmpty){
+    cherryMessage("Tüm bilgileri doldurmalısınız!", context);
+    return false;
+  }else if(file.isEmpty){
+    cherryMessage("Fotoğraf Seçmelisiniz!", context);
+    return false;
+  }else if(descriptionPhoto.isEmpty){
+    cherryMessage("Açıklama Eklemelisiniz!", context);
     return false;
   }else{
     return true;

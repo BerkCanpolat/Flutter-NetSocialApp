@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_netsocialapp/Provider/provider.dart';
 import 'package:flutter_netsocialapp/Screens/Auth/Login.dart';
 import 'package:flutter_netsocialapp/Screens/Auth/SignUp.dart';
-import 'package:flutter_netsocialapp/Screens/home/home.dart';
+import 'package:flutter_netsocialapp/Screens/home/homeMain.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
   const BottomNavigationScreen({super.key});
@@ -12,7 +14,19 @@ class BottomNavigationScreen extends StatefulWidget {
 
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
-  var sayfaDeis = [Home(), SignUp(),Login()];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    addUserDetails();
+  }
+
+  addUserDetails() async{
+    ProviderNet providerNet = Provider.of(context,listen: false);
+    await providerNet.userDetailsProvider();
+  }
+
+  var sayfaDeis = [HomeMain(), SignUp(),Login()];
   int index = 0;
   @override
   Widget build(BuildContext context) {
@@ -45,7 +59,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             index = value;
           });
         },
-      )
+      ),
     );
   }
 }
