@@ -39,4 +39,16 @@ class UserModel{
       userPhoto: snap?["userPhoto"],
     );
   }
+
+    UserModel copyWith({
+    String? name,userPhoto,userName
+    }) => 
+    UserModel(
+        uid: uid,
+        name: name??this.name,
+        userPhoto: userPhoto??this.userPhoto,
+        email: email,
+        password: password,
+        userName: userName??this.userName
+    );
 }

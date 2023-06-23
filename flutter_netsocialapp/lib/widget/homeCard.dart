@@ -63,9 +63,9 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.snap["name"],style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text(user!.name!,style: TextStyle(fontWeight: FontWeight.bold),),
                   SizedBox(height: 7,),
-                  Text("@${widget.snap["name"]}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
+                  Text("@${user.userName}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
                 ],
               ),
               Container(

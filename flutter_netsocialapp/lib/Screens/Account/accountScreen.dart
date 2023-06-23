@@ -1,7 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_netsocialapp/Provider/provider.dart';
+import 'package:flutter_netsocialapp/Screens/Account/EditPage/editPage.dart';
 import 'package:flutter_netsocialapp/Screens/Account/TabbarPage/tabbarPhotos.dart';
 import 'package:flutter_netsocialapp/Screens/Account/TabbarPage/tabbarTagged.dart';
 import 'package:flutter_netsocialapp/Screens/Account/TabbarPage/tabbarVideos.dart';
+import 'package:flutter_netsocialapp/constants/navigate.dart';
+import 'package:flutter_netsocialapp/model/userModel.dart';
+import 'package:provider/provider.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -13,21 +19,38 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
+    final UserModel? user = Provider.of<ProviderNet>(context).getUserProvider;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("İsim",style: TextStyle(color: Colors.black),),
+          title: Text(user!.name!,style: TextStyle(color: Colors.black),),
           centerTitle: true,
         ),
         body: Column(
           children: [
-            CircleAvatar(
-              maxRadius: 70,
-              backgroundImage: NetworkImage("https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png"),
+            user.userPhoto == null ? CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: (){
+                MainRoutes.instance.pushAndGo(widget: EditScreen(), context: context);
+              },
+              child: CircleAvatar(
+                maxRadius: 70,
+                backgroundImage: NetworkImage("https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png"),
+              ),
+            ) :
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: (){
+                MainRoutes.instance.pushAndGo(widget: EditScreen(), context: context);
+              },
+              child: CircleAvatar(
+                maxRadius: 70,
+                backgroundImage: NetworkImage(user.userPhoto!),
+              ),
             ),
             SizedBox(height: 10,),
-            Text("@kullanici_ismi",style: TextStyle(color: Color(0xff9896f0),fontWeight: FontWeight.bold,fontSize: 20),),
+            Text("@${user.userName!}",style: TextStyle(color: Color(0xff9896f0),fontWeight: FontWeight.bold,fontSize: 20),),
             Padding(
               padding: const EdgeInsets.only(top: 30),
               child: Row(
@@ -35,23 +58,23 @@ class _AccountScreenState extends State<AccountScreen> {
                 children: [
                   Column(
                     children: [
-                      Text("30K",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                      Text("30",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
                       SizedBox(height: 6,),
-                      Text("Followers",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),)
+                      Text("Takipçi",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),)
                     ],
                   ),
                   Column(
                     children: [
-                      Text("30K",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                      Text("30",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
                       SizedBox(height: 6,),
-                      Text("Followers",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),)
+                      Text("Takip",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),)
                     ],
                   ),
                   Column(
                     children: [
-                      Text("30K",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                      Text("30",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
                       SizedBox(height: 6,),
-                      Text("Followers",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),)
+                      Text("Beğeni",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),)
                     ],
                   ),
                 ],
