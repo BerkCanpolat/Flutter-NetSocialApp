@@ -63,6 +63,7 @@ class AuthService{
           password: password,
           uid: credential.user!.uid,
           userName: username,
+          userPhoto: null,
         );
 
         await _firestore.collection("Users").doc(credential.user!.uid).set(userModel.toJson());

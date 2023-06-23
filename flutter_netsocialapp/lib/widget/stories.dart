@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Deneme2 extends StatefulWidget {
-  const Deneme2({super.key});
+class StoriesScreen extends StatefulWidget {
+  const StoriesScreen({super.key});
 
   @override
-  State<Deneme2> createState() => _Deneme2State();
+  State<StoriesScreen> createState() => _StoriesScreenState();
 }
 
-class _Deneme2State extends State<Deneme2> {
+class _StoriesScreenState extends State<StoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

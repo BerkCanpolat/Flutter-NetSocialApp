@@ -30,7 +30,7 @@ class FireStore{
         postId: postId,
         postUrl: photoUrl,
         userName: userName,
-        datePost: DateTime.now()
+        datePost: DateTime.now(),
       );
 
       _firestore.collection("UserPost").doc(postId).set(postModel.toJson());
@@ -38,6 +38,26 @@ class FireStore{
     } catch (e) {
       cherryMessage(e.toString(), context);
       return false;
+    }
+  }
+
+
+
+
+  Future<void> userComments(String uid,String name, String postId,String text) async{
+    try {
+      if(text.isNotEmpty){
+        String commentId = Uuid().v1();
+        await _firestore.collection("UserPost").doc(postId).collection("Comments").doc(commentId).set({
+          "name":name,
+          "uid":uid,
+          "text":text,
+          "commentId":commentId,
+          "commentDate": DateTime.now()
+        });
+      }
+    } catch (e) {
+      e.toString();
     }
   }
 }

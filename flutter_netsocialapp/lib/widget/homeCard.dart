@@ -1,6 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_netsocialapp/Provider/provider.dart';
+import 'package:flutter_netsocialapp/Screens/Comment/commentScreen.dart';
+import 'package:flutter_netsocialapp/constants/navigate.dart';
+import 'package:flutter_netsocialapp/model/userModel.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HomeCartWidget extends StatefulWidget {
   final snap;
@@ -12,105 +18,85 @@ class HomeCartWidget extends StatefulWidget {
 
 class _HomeCartWidgetState extends State<HomeCartWidget> {
 
+  int commentlen = 0;
+
+  commentLen() async{
+    try {
+      QuerySnapshot snap = await FirebaseFirestore.instance.collection("UserPost").doc(widget.snap["postId"]).collection("Comments").get();
+
+      commentlen = snap.docs.length;
+      setState(() {});
+    } catch (e) {
+      e.toString();
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    commentLen();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final UserModel? user = Provider.of<ProviderNet>(context).getUserProvider;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Container(
-        //   child: Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: 12),
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         Text("Haber Akışı",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold,letterSpacing: 1),),
-        //         SizedBox(height: 12,),
-        //         Text("Öne çıkan hikayeler",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        // SizedBox(height: 20,),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: 12),
-        //   child: Container(
-        //     child: Row(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         CircleAvatar(
-        //           maxRadius: 25,
-        //           backgroundColor: Color.fromARGB(255, 101, 98, 243),
-        //           child: IconButton(onPressed: (){}, icon: Icon(Icons.add,color: Colors.white,)),
-        //         ),
-        //         SizedBox(width: 12,),
-        //         Column(
-        //           children: [
-        //             Row(
-        //               children: [
-        //                 CircleAvatar(
-        //                   maxRadius: 25,
-        //                   backgroundImage: NetworkImage("https://images.unsplash.com/photo-1674574124340-c00cc2dae99c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"),
-        //                 ),
-        //               ],
-        //             ),
-        //             Text("Sara"),
-        //           ],
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
         Divider(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  maxRadius: 25,
-                  backgroundImage: NetworkImage("https://images.unsplash.com/photo-1674574124340-c00cc2dae99c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"),
-                ),
-                SizedBox(width: 10,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(widget.snap["name"],style: TextStyle(fontWeight: FontWeight.bold),),
-                    SizedBox(height: 7,),
-                    Text("@${widget.snap["name"]}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
-                  ],
-                ),
-                Container(
-                  width: 220,
-                  alignment: Alignment.centerRight,
-                  child: CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: (){
-                      showDialog(
-                        context: context, 
-                        builder: (context) {
-                          return Dialog(
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: [
-                                "Sil"
-                              ].map((e) => InkWell(
-                                onTap: (){},
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 10,right: 10,bottom: 10,top: 10),
-                                  child: Text(e),
-                                ),
-                              )
-                              ).toList()
-                            ),
-                          );
-                        },
+        SizedBox(height: 20,),
+        Container(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              user?.userPhoto == null ? CircleAvatar(
+                maxRadius: 25,
+                backgroundImage: NetworkImage("https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png"),
+              ) :
+              CircleAvatar(
+                maxRadius: 25,
+                backgroundImage: NetworkImage(user!.userPhoto!),
+              ),
+              SizedBox(width: 10,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(widget.snap["name"],style: TextStyle(fontWeight: FontWeight.bold),),
+                  SizedBox(height: 7,),
+                  Text("@${widget.snap["name"]}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
+                ],
+              ),
+              Container(
+                width: 260,
+                alignment: Alignment.centerRight,
+                child: CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: (){
+                    showDialog(
+                      context: context, 
+                      builder: (context) {
+                        return Dialog(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              "Sil"
+                            ].map((e) => InkWell(
+                              onTap: (){},
+                              child: Container(
+                                padding: EdgeInsets.only(left: 10,right: 10,bottom: 10,top: 10),
+                                child: Text(e),
+                              ),
+                            )
+                            ).toList()
+                          ),
                         );
-                    }, child: Icon(Icons.more_horiz,color: Colors.black,)),
-                ),
-              ],
-            ),
+                      },
+                      );
+                  }, child: Icon(Icons.more_horiz,color: Colors.black,)),
+              ),
+            ],
           ),
         ),
         SizedBox(height: 12,),
@@ -138,9 +124,11 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
               CupertinoButton(
                 padding: EdgeInsets.zero,
                 child: Icon(Icons.maps_ugc_outlined,color: Colors.black,), 
-                onPressed: (){}
+                onPressed: (){
+                  MainRoutes.instance.pushAndGo(widget: CommentScreen(snap: widget.snap,), context: context);
+                }
                 ),
-                Text("200 like"),
+                Text("${commentlen} yorum"),
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerRight,
@@ -150,6 +138,24 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
             ],
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              Text(widget.snap["name"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+              Container(
+                padding: EdgeInsets.only(top: 5),
+                width: 300,
+                child: Text(widget.snap["description"],style: TextStyle(color: Colors.grey[800],fontSize: 13,letterSpacing: 1),),
+              )
+                ],
+              )
+            ],
+          ),
+        )
       ],
     );
   }

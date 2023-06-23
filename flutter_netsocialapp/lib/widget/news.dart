@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Deneme extends StatefulWidget {
-  const Deneme({super.key});
+class NewsScreen extends StatefulWidget {
+  const NewsScreen({super.key});
 
   @override
-  State<Deneme> createState() => _DenemeState();
+  State<NewsScreen> createState() => _NewsScreenState();
 }
 
-class _DenemeState extends State<Deneme> {
+class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
     return         SafeArea(

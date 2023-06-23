@@ -43,7 +43,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     //   _desc.text = "";
     // });
     if(isCorrect){
-      bool isPost = await FireStore().userAddPost(name, _desc.text, uid, userName, _file!, context);
+      bool isPost = await FireStore().userAddPost(name, _desc.text, uid, userName,_file!, context);
       if(isPost){
         _changeLoading();
         MainRoutes.instance.pushAndRemoveUntil(widget: BottomNavigationScreen(), context: context);
