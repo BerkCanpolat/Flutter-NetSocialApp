@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_netsocialapp/Provider/provider.dart';
+import 'package:flutter_netsocialapp/Screens/Account/accountScreen.dart';
 import 'package:flutter_netsocialapp/Screens/Auth/Login.dart';
 import 'package:flutter_netsocialapp/Screens/Auth/SignUp.dart';
 import 'package:flutter_netsocialapp/Screens/home/homeMain.dart';
@@ -26,7 +27,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     await providerNet.userDetailsProvider();
   }
 
-  var sayfaDeis = [HomeMain(), SignUp(),Login()];
+  var sayfaDeis = [HomeMain(), SignUp(),Login(),AccountScreen()];
   int index = 0;
   @override
   Widget build(BuildContext context) {

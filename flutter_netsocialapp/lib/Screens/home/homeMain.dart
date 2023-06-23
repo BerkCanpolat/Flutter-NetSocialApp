@@ -4,8 +4,8 @@ import 'package:flutter_netsocialapp/Screens/floatincSCreen/actionButton.dart';
 import 'package:flutter_netsocialapp/Screens/floatincSCreen/expand.dart';
 import 'package:flutter_netsocialapp/Screens/home/home.dart';
 import 'package:flutter_netsocialapp/constants/navigate.dart';
-import 'package:flutter_netsocialapp/widget/deneme.dart';
-import 'package:flutter_netsocialapp/widget/deneme2.dart';
+import 'package:flutter_netsocialapp/widget/news.dart';
+import 'package:flutter_netsocialapp/widget/stories.dart';
 
 class HomeMain extends StatefulWidget {
   const HomeMain({super.key});
@@ -25,9 +25,9 @@ class _HomeMainState extends State<HomeMain> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Deneme(),
+            NewsScreen(),
             SizedBox(height: 12,),
-            Deneme2(),
+            StoriesScreen(),
             SizedBox(height: 12,),
             Home(),
           ],

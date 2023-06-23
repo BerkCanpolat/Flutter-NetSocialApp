@@ -6,6 +6,7 @@ class UserModel{
   final String? password;
   final String? uid;
   final String? userName;
+  final String? userPhoto;
 
 
   UserModel({
@@ -14,6 +15,7 @@ class UserModel{
     required this.password,
     required this.uid,
     required this.userName,
+    this.userPhoto,
   });
 
   Map<String,dynamic> toJson() => {
@@ -21,7 +23,8 @@ class UserModel{
     "name":name,
     "password":password,
     "uid":uid,
-    "userName":userName
+    "userName":userName,
+    "userPhoto":userPhoto,
   };
 
   static UserModel fromSnap(DocumentSnapshot documentSnapshot){
@@ -33,6 +36,7 @@ class UserModel{
       password: snap?["password"],
       uid: snap?["uid"],
       userName: snap?["userName"],
+      userPhoto: snap?["userPhoto"],
     );
   }
 }
