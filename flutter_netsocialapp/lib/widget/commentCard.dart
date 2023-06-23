@@ -35,7 +35,7 @@ class _CommentCardState extends State<CommentCard> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-          Text(widget.snap["name"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+          Text(user!.name!,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
           SizedBox(height: 2,),
           Container(
             width: 230,
