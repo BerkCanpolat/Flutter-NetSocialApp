@@ -69,7 +69,7 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
                 ],
               ),
               Container(
-                width: 260,
+                width: 210,
                 alignment: Alignment.centerRight,
                 child: CupertinoButton(
                   padding: EdgeInsets.zero,

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_netsocialapp/Provider/provider.dart';
 import 'package:flutter_netsocialapp/Screens/AddPost/addPostScreen.dart';
 import 'package:flutter_netsocialapp/Screens/floatincSCreen/actionButton.dart';
 import 'package:flutter_netsocialapp/Screens/floatincSCreen/expand.dart';
 import 'package:flutter_netsocialapp/Screens/home/home.dart';
 import 'package:flutter_netsocialapp/constants/navigate.dart';
+import 'package:flutter_netsocialapp/model/userModel.dart';
 import 'package:flutter_netsocialapp/widget/news.dart';
 import 'package:flutter_netsocialapp/widget/stories.dart';
+import 'package:provider/provider.dart';
 
 class HomeMain extends StatefulWidget {
   const HomeMain({super.key});
@@ -17,7 +20,8 @@ class HomeMain extends StatefulWidget {
 class _HomeMainState extends State<HomeMain> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final UserModel? user = Provider.of<ProviderNet>(context).getUserProvider;
+    return user == null ? Center(child: CircularProgressIndicator(),) : Scaffold(
       appBar: AppBar(
         title: Text("NetSocialApp",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.bold),),
       ),
