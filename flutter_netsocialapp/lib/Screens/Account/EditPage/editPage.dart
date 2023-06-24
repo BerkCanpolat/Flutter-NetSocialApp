@@ -9,7 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class EditScreen extends StatefulWidget {
-  const EditScreen({super.key});
+  final snap;
+  const EditScreen({super.key,required this.snap});
 
   @override
   State<EditScreen> createState() => _EditScreenState();
@@ -98,9 +99,11 @@ class _EditScreenState extends State<EditScreen> {
       ),
       actions: [
         TextButton(onPressed: () async{
-          ProviderNet providerNet = Provider.of<ProviderNet>(context,listen: false);
-          UserModel userModel = providerNet.getUserProvider!.copyWith(name: _name.text,userName: _userName.text);
+          ProviderNet? providerNet = Provider.of<ProviderNet?>(context,listen: false);
+          UserModel userModel = providerNet!.getUserProvider!.copyWith(name: _name.text,userName: _userName.text);
           await providerNet.updateUserProfil(_file!, userModel, context);
+
+
         }, child: Icon(Icons.check))
       ],
       ),

@@ -15,6 +15,7 @@ class FireStore{
     String description,
     String uid,
     String userName,
+    String profilePick,
     Uint8List file,
     BuildContext context
   ) async{
@@ -31,6 +32,8 @@ class FireStore{
         postUrl: photoUrl,
         userName: userName,
         datePost: DateTime.now(),
+        like: [],
+        profilePick: profilePick,
       );
 
       _firestore.collection("UserPost").doc(postId).set(postModel.toJson());
