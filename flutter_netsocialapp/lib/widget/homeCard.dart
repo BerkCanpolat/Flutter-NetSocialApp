@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_netsocialapp/Provider/provider.dart';
 import 'package:flutter_netsocialapp/Screens/Comment/commentScreen.dart';
 import 'package:flutter_netsocialapp/constants/navigate.dart';
-import 'package:flutter_netsocialapp/model/userModel.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class HomeCartWidget extends StatefulWidget {
   final snap;
@@ -40,7 +37,6 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final UserModel? user = Provider.of<ProviderNet>(context).getUserProvider;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -51,21 +47,21 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              user?.userPhoto == null ? CircleAvatar(
+              widget.snap["profilePick"] == null ? CircleAvatar(
                 maxRadius: 25,
                 backgroundImage: NetworkImage("https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png"),
               ) :
               CircleAvatar(
                 maxRadius: 25,
-                backgroundImage: NetworkImage(user!.userPhoto!),
+                backgroundImage: NetworkImage(widget.snap["profilePick"]),
               ),
               SizedBox(width: 10,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(user!.name!,style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text(widget.snap["name"],style: TextStyle(fontWeight: FontWeight.bold),),
                   SizedBox(height: 7,),
-                  Text("@${user.userName}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
+                  Text("@${widget.snap["userName"]}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
                 ],
               ),
               Container(

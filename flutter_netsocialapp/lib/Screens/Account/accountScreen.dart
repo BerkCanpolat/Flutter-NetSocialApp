@@ -10,7 +10,8 @@ import 'package:flutter_netsocialapp/model/userModel.dart';
 import 'package:provider/provider.dart';
 
 class AccountScreen extends StatefulWidget {
-  const AccountScreen({super.key});
+  final uid;
+  const AccountScreen({super.key,required this.uid});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -32,7 +33,7 @@ class _AccountScreenState extends State<AccountScreen> {
             user.userPhoto == null ? CupertinoButton(
               padding: EdgeInsets.zero,
               onPressed: (){
-                MainRoutes.instance.pushAndGo(widget: EditScreen(), context: context);
+                MainRoutes.instance.pushAndGo(widget: EditScreen(snap: widget.uid), context: context);
               },
               child: CircleAvatar(
                 maxRadius: 70,
@@ -42,7 +43,7 @@ class _AccountScreenState extends State<AccountScreen> {
             CupertinoButton(
               padding: EdgeInsets.zero,
               onPressed: (){
-                MainRoutes.instance.pushAndGo(widget: EditScreen(), context: context);
+                MainRoutes.instance.pushAndGo(widget: EditScreen(snap: widget.uid), context: context);
               },
               child: CircleAvatar(
                 maxRadius: 70,
@@ -95,7 +96,7 @@ class _AccountScreenState extends State<AccountScreen> {
             Expanded(
               child: TabBarView(
                 children: [
-                  TabbarPhotosScreen(),
+                  TabbarPhotosScreen(uid: widget.uid),
                   TabbarVideosScreen(),
                   TabbarTaggedScreen(),
                 ],

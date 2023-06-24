@@ -36,6 +36,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     String name,
     String userName,
     String uid,
+    String profilePick,
   ) async{
     _changeLoading();
     bool isCorrect = await sharePhoto(_file!, _desc.text, context);
@@ -43,12 +44,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
     //   _desc.text = "";
     // });
     if(isCorrect){
-      bool isPost = await FireStore().userAddPost(name, _desc.text, uid, userName,_file!, context);
+      bool isPost = await FireStore().userAddPost(name, _desc.text, uid, userName, profilePick, _file!, context);
       if(isPost){
         _changeLoading();
         MainRoutes.instance.pushAndRemoveUntil(widget: BottomNavigationScreen(), context: context);
         cherryMessage("Post Başarıyla Paylaşıldı!", context);
-      }else{
+      }
+      else{
         _changeLoading();
         cherryMessage("Post Başarısız!", context);
       }
@@ -158,12 +160,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     width: 150,
                     child: NetSocialAppButton(
                       text: "Paylaş",
-                      onPressed: () => _postAdd(user!.name!, user.userName!, user.uid!),
+                      onPressed: () => _postAdd(user!.name!, user.userName!, user.uid!,user.userPhoto!),
                     ),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
