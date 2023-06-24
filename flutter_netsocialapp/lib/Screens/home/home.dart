@@ -15,7 +15,10 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return  StreamBuilder(
         stream: FirebaseFirestore.instance.collection("UserPost").orderBy("datePost", descending: true).snapshots(),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot<QuerySnapshot<Map<String,dynamic>>> snapshot) {
+          if(!snapshot.hasData){
+            return Center(child: CircularProgressIndicator(),);
+          }
           if(snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator(),);
           }

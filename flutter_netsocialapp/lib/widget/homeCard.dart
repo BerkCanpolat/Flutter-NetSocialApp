@@ -1,9 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_netsocialapp/Firebase/fireStore.dart';
+import 'package:flutter_netsocialapp/Provider/provider.dart';
 import 'package:flutter_netsocialapp/Screens/Comment/commentScreen.dart';
 import 'package:flutter_netsocialapp/constants/navigate.dart';
+import 'package:flutter_netsocialapp/model/userModel.dart';
+import 'package:flutter_netsocialapp/widget/like.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HomeCartWidget extends StatefulWidget {
   final snap;
@@ -16,6 +22,9 @@ class HomeCartWidget extends StatefulWidget {
 class _HomeCartWidgetState extends State<HomeCartWidget> {
 
   int commentlen = 0;
+  bool isAnimating = false;
+  var userData = {};
+  bool isLoading = false;
 
   commentLen() async{
     try {
@@ -28,16 +37,39 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
     }
   }
 
+  userUpdate() async{
+    try {
+      _changeLoading();
+      var userSnap = await FirebaseFirestore.instance.collection("Users").doc(FirebaseAuth.instance.currentUser!.uid).get();
+
+      userData = userSnap.data()!;
+      setState(() {});
+    } catch (e) {
+      e.toString();
+    }
+    _changeLoading();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     commentLen();
+    userUpdate();
+  }
+
+  void _changeLoading(){
+    if(this.mounted){
+    setState(() {
+      isLoading = !isLoading;
+    });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    final UserModel? user = Provider.of<ProviderNet>(context).getUserProvider;
+    return isLoading ? Center(child: CircularProgressIndicator(),) : Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Divider(),
@@ -59,9 +91,9 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.snap["name"],style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text(userData["name"].toString(),style: TextStyle(fontWeight: FontWeight.bold),),
                   SizedBox(height: 7,),
-                  Text("@${widget.snap["userName"]}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
+                  Text("@${userData["userName"].toString()}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
                 ],
               ),
               Container(
@@ -98,24 +130,58 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
         SizedBox(height: 12,),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SizedBox(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.35,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(widget.snap["postUrl"],fit: BoxFit.cover)),
+          child: GestureDetector(
+            onDoubleTap: () async{
+              await FireStore().likeUpdate(user!.uid!, widget.snap["postId"], widget.snap["like"]);
+              setState(() {
+                isAnimating = true;
+              });
+            },
+            child: Stack(
+              alignment: Alignment.center,
+              children: [ 
+                SizedBox(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.35,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(widget.snap["postUrl"],fit: BoxFit.cover),
+                  ),
+              ),
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 200),
+                opacity: isAnimating ? 1 : 0,
+                child: LikeAnimation(
+                  child: Icon(Icons.favorite,color: Color(0xff9896f0),size: 100,), 
+                  isAnimating: isAnimating,
+                  duration: Duration(milliseconds: 300),
+                  onEnd: () {
+                    setState(() {
+                      isAnimating = false;
+                    });
+                  },
+                  ),
+              ),
+              ]
+            ),
           ),
         ),
         Container(
           padding: EdgeInsets.only(left: 2,right: 12),
           child: Row(
             children: [
-              CupertinoButton(
-                padding: EdgeInsets.zero,
-                child: Icon(Icons.favorite_border,color: Colors.black,), 
-                onPressed: (){}
-                ),
-                Text("200 like"),
+              LikeAnimation(
+                isAnimating: widget.snap["like"].contains(user!.uid),
+                smallLike: true,
+                child: CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  child: widget.snap["like"].contains(user.uid) ? Icon(Icons.favorite,color: Color(0xff9896f0)) : Icon(Icons.favorite_border,color: Colors.black),
+                  onPressed: () async{
+                    await FireStore().likeUpdate(user.uid!, widget.snap["postId"], widget.snap["like"]);
+                  }
+                  ),
+              ),
+                Text(widget.snap["like"].length.toString()),
                 SizedBox(width: 10,),
               CupertinoButton(
                 padding: EdgeInsets.zero,
