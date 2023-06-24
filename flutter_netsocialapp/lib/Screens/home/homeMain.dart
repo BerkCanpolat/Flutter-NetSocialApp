@@ -18,10 +18,26 @@ class HomeMain extends StatefulWidget {
 }
 
 class _HomeMainState extends State<HomeMain> {
+
+  bool _isLoading = false;
+
+  void _changeIsLoading(){
+    setState(() {
+      _isLoading = _isLoading;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _changeIsLoading();
+  }
+
   @override
   Widget build(BuildContext context) {
     final UserModel? user = Provider.of<ProviderNet>(context).getUserProvider;
-    return user == null ? Center(child: CircularProgressIndicator(),) : Scaffold(
+    return _isLoading ? Center(child: CircularProgressIndicator(),) :  user == null ? Center(child: CircularProgressIndicator(),) : Scaffold(
       appBar: AppBar(
         title: Text("NetSocialApp",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.bold),),
       ),

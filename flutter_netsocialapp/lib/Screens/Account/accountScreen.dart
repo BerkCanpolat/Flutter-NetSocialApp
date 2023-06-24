@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_netsocialapp/Provider/provider.dart';
@@ -5,12 +6,13 @@ import 'package:flutter_netsocialapp/Screens/Account/EditPage/editPage.dart';
 import 'package:flutter_netsocialapp/Screens/Account/TabbarPage/tabbarPhotos.dart';
 import 'package:flutter_netsocialapp/Screens/Account/TabbarPage/tabbarTagged.dart';
 import 'package:flutter_netsocialapp/Screens/Account/TabbarPage/tabbarVideos.dart';
+import 'package:flutter_netsocialapp/Screens/bottombar.dart/bottombar.dart';
 import 'package:flutter_netsocialapp/constants/navigate.dart';
 import 'package:flutter_netsocialapp/model/userModel.dart';
 import 'package:provider/provider.dart';
 
 class AccountScreen extends StatefulWidget {
-  final uid;
+  final String uid;
   const AccountScreen({super.key,required this.uid});
 
   @override
@@ -18,6 +20,33 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+
+  int followers = 0;
+  int following = 0;
+  int like = 0;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userGet();
+  }
+
+  userGet() async{
+    try {
+      var userSnap = await FirebaseFirestore.instance.collection("Users").doc(widget.uid).get();
+      var postSnap = await FirebaseFirestore.instance.collection("UserPost").doc(widget.uid).get();
+
+      followers = userSnap.data()!["followers"].length;
+      following = userSnap.data()!["following"].length;
+      like = postSnap.data()!["like"].length;
+
+    } catch (e) {
+      
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final UserModel? user = Provider.of<ProviderNet>(context).getUserProvider;
@@ -27,6 +56,7 @@ class _AccountScreenState extends State<AccountScreen> {
         appBar: AppBar(
           title: Text(user!.name!,style: TextStyle(color: Colors.black),),
           centerTitle: true,
+          leading: GestureDetector(onTap: (){MainRoutes.instance.pushAndRemoveUntil(widget: BottomNavigationScreen(), context: context);},child: Icon(Icons.arrow_back,color: Colors.black,),),
         ),
         body: Column(
           children: [
@@ -46,7 +76,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 MainRoutes.instance.pushAndGo(widget: EditScreen(snap: widget.uid), context: context);
               },
               child: CircleAvatar(
-                maxRadius: 70,
+                maxRadius: 60,
                 backgroundImage: NetworkImage(user.userPhoto!),
               ),
             ),
@@ -59,21 +89,21 @@ class _AccountScreenState extends State<AccountScreen> {
                 children: [
                   Column(
                     children: [
-                      Text("30",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                      Text("$followers",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
                       SizedBox(height: 6,),
                       Text("Takipçi",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),)
                     ],
                   ),
                   Column(
                     children: [
-                      Text("30",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                      Text("$following",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
                       SizedBox(height: 6,),
                       Text("Takip",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),)
                     ],
                   ),
                   Column(
                     children: [
-                      Text("30",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                      Text("$like",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
                       SizedBox(height: 6,),
                       Text("Beğeni",style: TextStyle(color: Colors.grey[800], letterSpacing: 1),)
                     ],
