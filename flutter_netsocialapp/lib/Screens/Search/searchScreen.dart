@@ -83,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: isLoading ? Center(child: CircularProgressIndicator(),) : iShowUser ? FutureBuilder(
         future: FirebaseFirestore.instance.collection("Users").where("name", isEqualTo: _showUser.text).get(),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot<QuerySnapshot<Map<String,dynamic>>> snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator(),);
           }
@@ -91,7 +91,7 @@ class _SearchScreenState extends State<SearchScreen> {
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               return InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AccountScreen(uid: snapshot.data!.docs[index]["uid"]))),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AccountScreen(uid: (snapshot.data! as dynamic).docs[index]["uid"]))),
                 child: ListTile(
                   leading: CircleAvatar(
                     backgroundImage: NetworkImage(snapshot.data!.docs[index]["userPhoto"]),

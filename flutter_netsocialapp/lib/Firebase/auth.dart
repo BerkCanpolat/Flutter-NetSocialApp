@@ -11,9 +11,9 @@ class AuthService{
 
 
   Future<UserModel> userDetailsFirebase() async{
-    User user = _auth.currentUser!;
+    User? user = _auth.currentUser;
 
-    DocumentSnapshot documentSnapshot = await _firestore.collection("Users").doc(user.uid).get();
+    DocumentSnapshot documentSnapshot = await _firestore.collection("Users").doc(user?.uid).get();
 
     return UserModel.fromSnap(documentSnapshot);
   }
@@ -78,5 +78,10 @@ class AuthService{
       showMessage(e.code.toString());
       return false;
     }
+  }
+
+
+  Future<void> logout() async{
+    await _auth.signOut();
   }
 }

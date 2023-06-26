@@ -6,6 +6,7 @@ import 'package:flutter_netsocialapp/Screens/Account/EditPage/editPage.dart';
 import 'package:flutter_netsocialapp/Screens/Account/TabbarPage/tabbarPhotos.dart';
 import 'package:flutter_netsocialapp/Screens/Account/TabbarPage/tabbarTagged.dart';
 import 'package:flutter_netsocialapp/Screens/Account/TabbarPage/tabbarVideos.dart';
+import 'package:flutter_netsocialapp/Screens/Account/settings/settings.dart';
 import 'package:flutter_netsocialapp/Screens/bottombar.dart/bottombar.dart';
 import 'package:flutter_netsocialapp/constants/navigate.dart';
 import 'package:flutter_netsocialapp/model/userModel.dart';
@@ -24,6 +25,8 @@ class _AccountScreenState extends State<AccountScreen> {
   int followers = 0;
   int following = 0;
   int like = 0;
+  var userData = {};
+  bool isLoading = false;
 
 
   @override
@@ -35,28 +38,46 @@ class _AccountScreenState extends State<AccountScreen> {
 
   userGet() async{
     try {
+      setState(() {
+        isLoading = true;
+      });
       var userSnap = await FirebaseFirestore.instance.collection("Users").doc(widget.uid).get();
-      var postSnap = await FirebaseFirestore.instance.collection("UserPost").doc(widget.uid).get();
+      var postSnap = await FirebaseFirestore.instance.collection("UserPost").where("like",isEqualTo: widget.uid).get();
 
       followers = userSnap.data()!["followers"].length;
       following = userSnap.data()!["following"].length;
-      like = postSnap.data()!["like"].length;
-
+      like = postSnap.docs.length;
+      userData = userSnap.data()!;
+      setState(() {});
     } catch (e) {
-      
+      e.toString();
     }
+      setState(() {
+        isLoading = false;
+      });
+  }
+
+  void _changeLoading(){
+    setState(() {
+      isLoading = !isLoading;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final UserModel? user = Provider.of<ProviderNet>(context).getUserProvider;
-    return DefaultTabController(
+    return isLoading ? Center(child: CircularProgressIndicator(),) : DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Text(user!.name!,style: TextStyle(color: Colors.black),),
           centerTitle: true,
           leading: GestureDetector(onTap: (){MainRoutes.instance.pushAndRemoveUntil(widget: BottomNavigationScreen(), context: context);},child: Icon(Icons.arrow_back,color: Colors.black,),),
+          actions: [
+            TextButton(onPressed: (){
+              MainRoutes.instance.pushAndGo(widget: SettingsScreen(), context: context);
+            }, child: Icon(Icons.more_horiz,color: Colors.black,))
+          ],
         ),
         body: Column(
           children: [
