@@ -5,7 +5,7 @@ import 'package:flutter_netsocialapp/Provider/provider.dart';
 import 'package:flutter_netsocialapp/Screens/Welcome/splashScreen.dart';
 import 'package:flutter_netsocialapp/Screens/Welcome/splashScreenTwo.dart';
 import 'package:flutter_netsocialapp/constants/theme.dart';
-import 'package:flutter_netsocialapp/firebase_options.dart';
+import 'package:flutter_netsocialapp/ghost_folder/firebase_options.dart';
 import 'package:provider/provider.dart';
 
 void main() async{
