@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_netsocialapp/Firebase/fireStore.dart';
@@ -23,8 +22,6 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
 
   int commentlen = 0;
   bool isAnimating = false;
-  var userData = {};
-  bool isLoading = false;
 
   commentLen() async{
     try {
@@ -37,39 +34,17 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
     }
   }
 
-  userUpdate() async{
-    try {
-      _changeLoading();
-      var userSnap = await FirebaseFirestore.instance.collection("Users").doc(FirebaseAuth.instance.currentUser!.uid).get();
-
-      userData = userSnap.data()!;
-      setState(() {});
-    } catch (e) {
-      e.toString();
-    }
-    _changeLoading();
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     commentLen();
-    userUpdate();
-  }
-
-  void _changeLoading(){
-    if(this.mounted){
-    setState(() {
-      isLoading = !isLoading;
-    });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     final UserModel? user = Provider.of<ProviderNet>(context).getUserProvider;
-    return isLoading ? Center(child: CircularProgressIndicator(),) : Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Divider(),
@@ -91,12 +66,12 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(userData["name"].toString(),style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text(widget.snap["name"].toString(),style: TextStyle(fontWeight: FontWeight.bold),),
                   SizedBox(height: 7,),
-                  Text("@${userData["userName"].toString()}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
+                  Text("@${widget.snap["name"]}",style: TextStyle(fontSize: 12,color: Colors.grey[800]),),
                 ],
               ),
-              Container(
+               Container(
                 width: 210,
                 alignment: Alignment.centerRight,
                 child: CupertinoButton(
@@ -111,7 +86,10 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
                             children: [
                               "Sil"
                             ].map((e) => InkWell(
-                              onTap: (){},
+                              onTap: () {
+                                FireStore().delete(widget.snap["postId"], widget.snap["uid"]);
+                                Navigator.of(context).pop();
+                              },
                               child: Container(
                                 padding: EdgeInsets.only(left: 10,right: 10,bottom: 10,top: 10),
                                 child: Text(e),
@@ -123,7 +101,7 @@ class _HomeCartWidgetState extends State<HomeCartWidget> {
                       },
                       );
                   }, child: Icon(Icons.more_horiz,color: Colors.black,)),
-              ),
+              )
             ],
           ),
         ),

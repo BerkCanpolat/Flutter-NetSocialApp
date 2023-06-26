@@ -99,8 +99,8 @@ class _EditScreenState extends State<EditScreen> {
       ),
       actions: [
         TextButton(onPressed: () async{
-          ProviderNet? providerNet = Provider.of<ProviderNet?>(context,listen: false);
-          UserModel userModel = providerNet!.getUserProvider!.copyWith(name: _name.text,userName: _userName.text);
+          ProviderNet providerNet = Provider.of<ProviderNet>(context,listen: false);
+          UserModel userModel = providerNet.getUserProvider!.copyWith(name: _name.text,userName: _userName.text);
           await providerNet.updateUserProfil(_file!, userModel, context);
 
 
