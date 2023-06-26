@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub/
 /build/
 ghost_folder/*
+ghost_folderr/
 
 # Symbolication related
 app.*.symbols
