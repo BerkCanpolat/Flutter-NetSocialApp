@@ -1,8 +1,14 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_netsocialapp/Provider/provider.dart';
+import 'package:flutter_netsocialapp/Screens/Account/accountScreen.dart';
+import 'package:flutter_netsocialapp/Screens/bottombar.dart/bottombar.dart';
+import 'package:flutter_netsocialapp/Screens/home/homeMain.dart';
+import 'package:flutter_netsocialapp/constants/navigate.dart';
 import 'package:flutter_netsocialapp/constants/picker.dart';
 import 'package:flutter_netsocialapp/model/userModel.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,8 +26,12 @@ class _EditScreenState extends State<EditScreen> {
   Uint8List? _file;
   final TextEditingController _name = TextEditingController();
   final TextEditingController _userName = TextEditingController();
+  bool _isloading = false;
 
   void _selectPhoto() async{
+    setState(() {
+      _isloading = true;
+    });
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -84,11 +94,16 @@ class _EditScreenState extends State<EditScreen> {
        );
       }
       );
+    setState(() {
+      _isloading = false;
+    });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _isloading ? Center(child: CircularProgressIndicator(),) : Scaffold(
       appBar: AppBar(title: Text("Profili Düzenle",style: TextStyle(color: Colors.black),
       ),
       leading: CupertinoButton(
@@ -102,7 +117,8 @@ class _EditScreenState extends State<EditScreen> {
           ProviderNet providerNet = Provider.of<ProviderNet>(context,listen: false);
           UserModel userModel = providerNet.getUserProvider!.copyWith(name: _name.text,userName: _userName.text);
           await providerNet.updateUserProfil(_file!, userModel, context);
-
+          setState(() {});
+          // MainRoutes.instance.pushAndRemoveUntil(widget: BottomNavigationScreen(), context: context);
 
         }, child: Icon(Icons.check))
       ],
@@ -147,3 +163,4 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 }
+
