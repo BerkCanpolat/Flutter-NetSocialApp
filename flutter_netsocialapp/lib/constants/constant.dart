@@ -76,8 +76,8 @@ bool signUpValidate(String email, String password,String name){
 }
 
 
-bool sharePhoto(Uint8List file,String descriptionPhoto,BuildContext context){
-  if(file.isEmpty && descriptionPhoto.isEmpty){
+bool sharePhoto(Uint8List file,String descriptionPhoto,BuildContext context, String profilePick){
+  if(file.isEmpty && descriptionPhoto.isEmpty && profilePick.isEmpty){
     cherryMessage("Tüm bilgileri doldurmalısınız!", context);
     return false;
   }else if(file.isEmpty){
@@ -86,7 +86,11 @@ bool sharePhoto(Uint8List file,String descriptionPhoto,BuildContext context){
   }else if(descriptionPhoto.isEmpty){
     cherryMessage("Açıklama Eklemelisiniz!", context);
     return false;
-  }else{
+  }else if(profilePick.isEmpty){
+    cherryMessage("Lütfen bir profil resmi seçin!", context);
+    return false;
+  }
+  else{
     return true;
   }
 }

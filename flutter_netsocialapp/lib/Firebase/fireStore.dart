@@ -81,11 +81,15 @@ class FireStore{
   }
 
 
-  Future<void> delete(String postId,String uid) async{
-    try {
-      await _firestore.collection("UserPost").doc(postId).delete();
-    } catch (e) {
-      e.toString();
-    }
-  }
+  // Future<void> delete(String postId,String uid) async{
+  //   try {
+  //     await _firestore.collection("UserPost").doc(postId).delete();
+  //   } catch (e) {
+  //     showMessage("Post silinirken bir hata oluştu."); // Hatayı göstermek için showMessage fonksiyonunu kullanın
+  //   print('Hata: $e');
+  //   }
+  // }
+
+
+
 }

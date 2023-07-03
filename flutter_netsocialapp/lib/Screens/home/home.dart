@@ -13,7 +13,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return  StreamBuilder(
+    return StreamBuilder(
         stream: FirebaseFirestore.instance.collection("UserPost").orderBy("datePost", descending: true).snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot<Map<String,dynamic>>> snapshot) {
           if(!snapshot.hasData){

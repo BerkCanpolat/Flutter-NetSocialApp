@@ -4,6 +4,7 @@ import 'package:flutter_netsocialapp/Provider/provider.dart';
 import 'package:flutter_netsocialapp/Screens/Account/accountScreen.dart';
 import 'package:flutter_netsocialapp/Screens/Auth/Login.dart';
 import 'package:flutter_netsocialapp/Screens/Search/searchScreen.dart';
+import 'package:flutter_netsocialapp/Screens/favourite.dart';
 import 'package:flutter_netsocialapp/Screens/home/homeMain.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +29,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     await providerNet.userDetailsProvider();
   }
 
-  var sayfaDeis = [HomeMain(), SearchScreen(),Login(),AccountScreen(uid: FirebaseAuth.instance.currentUser!.uid,)];
+  var sayfaDeis = [HomeMain(), SearchScreen(),FavouriteScreen(),AccountScreen(uid: FirebaseAuth.instance.currentUser!.uid)];
   int index = 0;
   @override
   Widget build(BuildContext context) {

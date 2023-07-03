@@ -74,6 +74,9 @@ class _CommentScreenState extends State<CommentScreen> {
                 TextButton(
                   onPressed: () async{
                     await FireStore().userComments(user!.uid!, user.name!, widget.snap["postId"], _textEditing.text);
+                    setState(() {
+                      _textEditing.text = "";
+                    });
                   }, 
                   child: Icon(Icons.send,color: Color(0xff9896f0),),
                   ),

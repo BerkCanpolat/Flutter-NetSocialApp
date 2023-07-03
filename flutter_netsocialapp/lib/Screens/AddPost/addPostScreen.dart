@@ -39,10 +39,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
     String profilePick,
   ) async{
     _changeLoading();
-    bool isCorrect = await sharePhoto(_file!, _desc.text, context);
-    // setState(() {
-    //   _desc.text = "";
-    // });
+if (profilePick == null) {
+  // Kullanıcı resim seçmediğinde yapılacak işlemler
+  cherryMessage("Lütfen profil resmi seçin!", context);
+  return;
+}
+    bool isCorrect = await sharePhoto(_file!, _desc.text, context,profilePick);
     if(isCorrect){
       bool isPost = await FireStore().userAddPost(name, _desc.text, uid, userName, profilePick, _file!, context);
       if(isPost){
@@ -56,6 +58,64 @@ class _AddPostScreenState extends State<AddPostScreen> {
       }
     } 
   }
+
+// void _postAdd(
+//   String name,
+//   String userName,
+//   String uid,
+//   String profilePick,
+// ) async {
+//   _changeLoading();
+
+//   if (profilePick == null) {
+//     cherryMessage("Lütfen profil resmi seçin!", context);
+//     _changeLoading();
+//     return;
+//   }
+
+//   bool isCorrect = await sharePhoto(_file!, _desc.text, context);
+//   if (!isCorrect) {
+//     _changeLoading();
+//     cherryMessage("Fotoğraf paylaşımı başarısız oldu.", context);
+//     return;
+//   }
+
+//   bool isPost = await FireStore().userAddPost(
+//     name,
+//     _desc.text,
+//     uid,
+//     userName,
+//     profilePick,
+//     _file!,
+//     context,
+//   );
+//   if (isPost) {
+//     _changeLoading();
+//     MainRoutes.instance.pushAndRemoveUntil(
+//       widget: BottomNavigationScreen(),
+//       context: context,
+//     );
+//     cherryMessage("Post Başarıyla Paylaşıldı!", context);
+//   } else {
+//     _changeLoading();
+//     cherryMessage("Post Başarısız!", context);
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   void _pickImage() async{
@@ -160,7 +220,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     width: 150,
                     child: NetSocialAppButton(
                       text: "Paylaş",
-                      onPressed: () => _postAdd(user!.name!, user.userName!, user.uid!,user.userPhoto!),
+                      onPressed: () => _postAdd(user!.name!, user.name!, user.uid!, user.userPhoto!)
                     ),
                   ),
                 ],

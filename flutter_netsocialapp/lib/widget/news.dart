@@ -10,7 +10,7 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
-    return         SafeArea(
+    return SafeArea(
       child: Container(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
